@@ -40,6 +40,8 @@ npm install --save hexo-blog-encrypt
 
 文章 front-matter 设置非空 `password` 即可；加密文目录依赖主题内 `source/js/hbe-toc.js`。
 
+若站点使用 `hexo-generator-zip-search`：该插件会把**未加密的 Markdown 原文**打进 `search.flv`，从而绕过博文加密。请把本仓库 `extras/secure-zip-search.js` 复制到站点的 `scripts/` 目录（会覆盖同名 `zip` generator，加密文只索引标题）。
+
 5. 本地预览 / 生成：
 
 ```bash
@@ -64,6 +66,9 @@ hexo server   # http://localhost:4000
 
 ## Log
 
+- 2026.10.15（续）
+  - 补充 `extras/secure-zip-search.js`：配合 zip-search 时加密文只进标题，避免 `search.flv` 泄漏正文
+  - 再次同步主题文件；示例配置保持占位符，不含个人隐私
 - 2026.10.15
   - 加密文章：目录不再明文进 HTML；解密后由 `source/js/hbe-toc.js` 从正文生成 TOC
   - Artalk：支持 `enable` / `collapse` / `unlock` / `unlock_hint`；UI 文案用 COMMENTS；折叠或口令通过前不加载 Artalk
