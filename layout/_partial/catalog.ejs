@@ -2,23 +2,24 @@
 <% if (page.catalog) { %>
     <% if (is_post()){ %>
       <aside id="sidebar">
-        <!--div id="toc" class="toc-article" <% if (page.encrypt == true) { %> style="display:none" <% } %>-->
-        <div id="toc" class="toc-article">
-        <strong class="toc-title"><%= __('Contents') %></strong>
         <% if (page.encrypt == true) { %>
-          <% if (toc(page.origin) != ""){ %>
-            <%- toc(page.origin, { "class": "toc-nav" }) %>
-          <% } else { %>
-            <ol class="nav"><%= __('none') %></ol>
-          <% } %>
+          <!-- 加密文：目录不进明文 HTML；解密后由 hbe 显示 #toc-div，再由 JS 从正文生成 -->
+          <div id="toc-div" class="toc-div-class" style="display:none">
+            <div id="toc" class="toc-article">
+              <strong class="toc-title"><%= __('Contents') %></strong>
+              <ol class="nav toc-nav" id="hbe-toc-list"></ol>
+            </div>
+          </div>
         <% } else { %>
-          <% if (toc(page.content) != ""){ %>
-            <%- toc(page.content, { "class": "toc-nav" }) %>
-          <% } else { %>
-            <ol class="nav"><%= __('none') %></ol>
-          <% } %>
+          <div id="toc" class="toc-article">
+            <strong class="toc-title"><%= __('Contents') %></strong>
+            <% if (toc(page.content) != ""){ %>
+              <%- toc(page.content, { "class": "toc-nav" }) %>
+            <% } else { %>
+              <ol class="nav"><%= __('none') %></ol>
+            <% } %>
+          </div>
         <% } %>
-        </div>
       </aside>
     <% } %>
 <% } %>

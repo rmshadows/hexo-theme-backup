@@ -97,6 +97,25 @@
           Copyright &copy;
           <%= config.author %>
           <%= new Date().getFullYear() %>
+          <% if (config.icp && config.icp.enable && config.icp.number) { %>
+            |
+            <a href="<%= config.icp.link || 'https://beian.miit.gov.cn/' %>" target="_blank" rel="noopener noreferrer"><%= config.icp.number %></a>
+          <% } %>
+          <% if (config.gongan && config.gongan.enable && config.gongan.number) { %>
+            <%
+              var gonganLink = config.gongan.link;
+              if (!gonganLink && config.gongan.code) {
+                gonganLink = 'https://beian.mps.gov.cn/#/query/webSearch?code=' + config.gongan.code;
+              }
+            %>
+            |
+            <a href="<%= gonganLink || 'https://beian.mps.gov.cn/#/query/webSearch' %>" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:4px;vertical-align:middle;">
+              <% if (config.gongan.icon) { %>
+                <img src="<%= config.root %><%= config.gongan.icon %>" alt="" width="14" height="14" style="margin:0;">
+              <% } %>
+              <span><%= config.gongan.number %></span>
+            </a>
+          <% } %>
           <br>
           Theme by
           <a href="http://beantech.org">BeanTech</a>
@@ -128,11 +147,14 @@
 <% if (config.ribbon) { %>
   <script type="text/javascript" src="<%- config.root %>js/ribbonDynamic.js"></script>
 <% } %>
-
 <script type="text/javascript" src="<%= config.root %>js/hux-blog.min.js"></script>
 
 <!-- catalog -->
 <script type="text/javascript" async="true" src="<%= config.root %>js/catalog.js?v=1.0.0"></script>
+<% if (typeof page !== 'undefined' && page.encrypt) { %>
+  <!-- encrypted post: build TOC after decrypt (no plaintext headings in HTML) -->
+  <script type="text/javascript" src="<%= config.root %>js/hbe-toc.js?v=1.0.0"></script>
+<% } %>
 
 <!-- totop(rocket) -->
 <script type="text/javascript" async="true" src="<%= config.root %>js/totop.js?v=1.0.0"></script>

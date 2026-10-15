@@ -673,6 +673,10 @@ pre code {
   font-size: 13px;
   font-style: italic;
   color: #a3a3a3;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  overflow: hidden;
+  max-width: 100%;
 }
 
 .post-content-preview:hover {

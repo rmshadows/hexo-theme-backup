@@ -25,7 +25,11 @@ layout: page
       <%- post.subtitle || "" %>
     </h3>
     <div class="post-content-preview">
-      <%- truncate(strip_html(post.content), {length: 200, omission: '...'}) %>...
+      <% if (post.encrypt || post.password) { %>
+        <%- post.abstract || (config.encrypt && config.encrypt.abstract) || 'Encrypted content. Password required.' %>
+      <% } else { %>
+        <%- truncate(strip_html(post.content), {length: 200, omission: '...'}) %>...
+      <% } %>
     </div>
   </a>
   <% if (config.home_posts_tag){%>

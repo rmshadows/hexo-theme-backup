@@ -283,3 +283,113 @@ li.archive-list-item:hover a {
 #rocket {
   right: 47px;
 }
+
+/* Gitter */
+.gitter-chat-embed {
+  left: 69.5%;
+}
+
+@media(max-width:1500px) {
+  .gitter-chat-embed {
+    left: 60%;
+  }
+}
+
+@media(max-width:1150px) {
+  .gitter-chat-embed {
+    left: 45%
+  }
+}
+
+@media(max-width:944px) {
+  .gitter-chat-embed {
+    left: 30%
+  }
+}
+
+@media(max-width:600px) {
+  .gitter-chat-embed {
+    left: 15%
+  }
+}
+
+@media(max-width:500px) {
+  .gitter-chat-embed {
+    left: 0;
+    border-left: none
+  }
+}
+
+.gitter-open-chat-button {
+  bottom: 1.875rem;
+  right: 2.5rem;
+  font-size: .75019rem;
+  /* font-size: 12px; */
+  font-weight: 700;
+  padding: .25rem .5rem;
+  border-radius: 3px;
+  /* width: 110px; */
+}
+
+.gitter-open-chat-button.is-collapsed {
+  box-sizing: border-box;
+  transform: translateY(200%);
+}
+
+.gitter-open-chat-button:focus, .gitter-open-chat-button:hover {
+  text-decoration: none;
+}
+
+/* COMMENTS gate (Artalk lazy / unlock) */
+.comments-section {
+  margin: 1.5rem 0 2rem;
+}
+.comments-heading {
+  margin: 0 0 0.75rem;
+  letter-spacing: 0.08em;
+  color: #777;
+  font-size: 14px;
+  font-weight: 700;
+}
+.comments-gate {
+  padding: 1rem 0 0.5rem;
+}
+.comments-gate-hint {
+  margin: 0 0 0.5rem;
+  color: #999;
+  font-size: 13px;
+}
+.comments-gate-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+.comments-unlock-input {
+  min-width: 12rem;
+  max-width: 100%;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  background: #fff;
+  color: #333;
+}
+.comments-gate-btn {
+  padding: 0.4rem 0.9rem;
+  border: 1px solid #337ab7;
+  border-radius: 2px;
+  background: transparent;
+  color: #337ab7;
+  cursor: pointer;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+.comments-gate-btn:hover {
+  background: #337ab7;
+  color: #fff;
+}
+.comments-unlock-error {
+  margin: 0.5rem 0 0;
+  color: #c0392b;
+  font-size: 13px;
+}

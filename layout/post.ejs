@@ -43,9 +43,9 @@ layout: layout
         <% } %>
         <hr>
 
-        <!-- comments start -->
-        <%- partial('_partial/comment',{cache: true}) %>
-        <!-- comments end -->
+        <!-- COMMENTS start (no fragment cache: per-page artalk options) -->
+        <%- partial('_partial/comment') %>
+        <!-- COMMENTS end -->
         <hr>
 
       </div>

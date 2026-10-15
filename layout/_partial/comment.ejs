@@ -1,23 +1,138 @@
-<!--修改--artalk-->
-<!-- 0.artalk安装代码 -->
-<% if(config['artalk']){ %>
-<!-- CSS -->
-<link href="<%= config.artalk.url %>/dist/Artalk.css" rel="stylesheet" />
-<link href="<%= config.artalk.url %>/dist/Artalk.css" rel="stylesheet" />
-<!-- JS -->
-<script src="<%= config.artalk.url %>/dist/Artalk.js"></script>
-<!-- Artalk -->
-<div id="Comments"></div>
+<!-- Artalk / COMMENTS gate -->
+<%
+  var atkCfg = config.artalk || {};
+  var artalkEnabled = !!(atkCfg.url && atkCfg.enable !== false && page.artalk !== false);
+  var artalkCollapse = (typeof page.artalk_collapse !== 'undefined')
+    ? !!page.artalk_collapse
+    : !!atkCfg.collapse;
+  var artalkUnlock = (typeof page.artalk_unlock !== 'undefined')
+    ? String(page.artalk_unlock || '')
+    : String(atkCfg.unlock || '');
+  var artalkUnlockHint = (typeof page.artalk_unlock_hint !== 'undefined')
+    ? String(page.artalk_unlock_hint || '')
+    : String(atkCfg.unlock_hint || '');
+  var artalkNeedGate = artalkCollapse || artalkUnlock.length > 0;
+%>
+<% if (artalkEnabled) { %>
+<section id="comments-section" class="comments-section" aria-label="COMMENTS">
+  <h5 class="comments-heading">COMMENTS</h5>
+
+  <% if (artalkNeedGate) { %>
+  <div id="comments-gate" class="comments-gate">
+    <% if (artalkUnlock.length > 0) { %>
+    <% if (artalkUnlockHint) { %>
+    <p class="comments-gate-hint"><%= artalkUnlockHint %></p>
+    <% } %>
+    <div class="comments-gate-row">
+      <input type="password" id="comments-unlock-input" class="comments-unlock-input" autocomplete="off" placeholder="Access key">
+      <button type="button" id="comments-unlock-btn" class="comments-gate-btn">Unlock</button>
+    </div>
+    <p id="comments-unlock-error" class="comments-unlock-error" hidden>Wrong key.</p>
+    <% } else { %>
+    <button type="button" id="comments-expand-btn" class="comments-gate-btn">Show COMMENTS</button>
+    <% } %>
+  </div>
+  <% } %>
+
+  <div id="Comments" <% if (artalkNeedGate) { %>hidden<% } %>></div>
+</section>
+
 <script>
-  Artalk.init({
-    el: '#Comments', // 绑定元素的 Selector
-    pageKey: '<%= page.permalink %>', // 固定链接
-    pageTitle: '', // 页面标题 (留空自动获取)
-    server: '<%= config.artalk.url %>', // 后端地址
-    site: '<%= config.artalk.site %>', // 你的站点名
-  })
+(function () {
+  var cfg = {
+    css: <%- JSON.stringify(atkCfg.url + '/dist/Artalk.css') %>,
+    js: <%- JSON.stringify(atkCfg.url + '/dist/Artalk.js') %>,
+    server: <%- JSON.stringify(atkCfg.url) %>,
+    site: <%- JSON.stringify(atkCfg.site || '') %>,
+    pageKey: <%- JSON.stringify(page.permalink) %>,
+    unlock: <%- JSON.stringify(artalkUnlock) %>,
+    needGate: <%= artalkNeedGate ? 'true' : 'false' %>
+  };
+  var loaded = false;
+  var inited = false;
+
+  function loadScript(src) {
+    return new Promise(function (resolve, reject) {
+      var el = document.createElement('script');
+      el.src = src;
+      el.onload = function () { resolve(); };
+      el.onerror = reject;
+      document.head.appendChild(el);
+    });
+  }
+
+  function ensureArtalk() {
+    if (loaded) return Promise.resolve();
+    loaded = true;
+    if (!document.querySelector('link[data-artalk-css]')) {
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = cfg.css;
+      link.setAttribute('data-artalk-css', '1');
+      document.head.appendChild(link);
+    }
+    if (window.Artalk) return Promise.resolve();
+    return loadScript(cfg.js);
+  }
+
+  function initArtalk() {
+    if (inited) return;
+    inited = true;
+    var box = document.getElementById('Comments');
+    if (box) box.hidden = false;
+    var gate = document.getElementById('comments-gate');
+    if (gate) gate.hidden = true;
+    ensureArtalk().then(function () {
+      Artalk.init({
+        el: '#Comments',
+        pageKey: cfg.pageKey,
+        pageTitle: '',
+        server: cfg.server,
+        site: cfg.site
+      });
+    }).catch(function (e) {
+      console.error('COMMENTS load failed', e);
+      inited = false;
+    });
+  }
+
+  if (!cfg.needGate) {
+    initArtalk();
+    return;
+  }
+
+  var unlockBtn = document.getElementById('comments-unlock-btn');
+  var expandBtn = document.getElementById('comments-expand-btn');
+  var input = document.getElementById('comments-unlock-input');
+  var err = document.getElementById('comments-unlock-error');
+
+  function tryUnlock() {
+    if (!cfg.unlock) {
+      initArtalk();
+      return;
+    }
+    var val = input ? input.value : '';
+    if (val === cfg.unlock) {
+      if (err) err.hidden = true;
+      initArtalk();
+    } else if (err) {
+      err.hidden = false;
+    }
+  }
+
+  if (unlockBtn) {
+    unlockBtn.addEventListener('click', tryUnlock);
+    if (input) {
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') tryUnlock();
+      });
+    }
+  }
+  if (expandBtn) {
+    expandBtn.addEventListener('click', function () { initArtalk(); });
+  }
+})();
 </script>
-<!-- artalk安装代码已完成 -->
 <% } %>
 
 
