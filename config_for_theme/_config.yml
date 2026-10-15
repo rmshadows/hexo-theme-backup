@@ -72,6 +72,21 @@ sidebar-avatar: img/avatar/head.png #roguerabbit.jpg    # use absolute URL, seei
 # busuanzi: https://busuanzi.ibruce.info/
 busuanzi: true
 
+# 备案信息（可选；页脚展示，需本仓库主题 footer 支持）
+# ICP：https://beian.miit.gov.cn/
+icp:
+  enable: false
+  number: 省ICP备xxxxxxxx号-1
+  link: https://beian.miit.gov.cn/
+
+# 公安联网备案（可选）
+gongan:
+  enable: false
+  number: # 省公网安备xxxxxxxxxxxx号
+  code: # 备案号中的数字，用于拼接查询链接
+  # link: https://beian.mps.gov.cn/#/query/webSearch?code=xxxxxxxxxxxx
+  # icon: img/gongan-beian.png
+
 # 彩带特效
 ribbon: true
 
@@ -117,12 +132,20 @@ encrypt: # hexo-blog-encrypt
   wrong_pass_message: Oh, this is an invalid password. Check and try again, please.
   wrong_hash_message: Oh, these decrypted content cannot be verified, but you can still have a look.
 
-# Comment Settings
+# Comment Settings (UI 文案为 COMMENTS)
+# 单篇 front-matter 可覆盖：
+#   artalk: false
+#   artalk_collapse: true
+#   artalk_unlock: "secret"
+#   artalk_unlock_hint: "提示文字"
 artalk:
-  # 最后不要有斜杠(http://artalk.example.com:8080)
-  url: "https://civiccccc.ltd/artalk"
-  site: "CIVICCCCC 的博客"
-
+  # 最后不要有斜杠
+  url: "https://example.com/artalk"
+  site: "Your Site Name"
+  enable: true
+  collapse: true
+  unlock: ""
+  unlock_hint: ""
 
 #来必力City版安装代码
 # livere:
