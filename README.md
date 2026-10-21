@@ -66,6 +66,8 @@ hexo server   # http://localhost:4000
 
 ## Log
 
+- 2026.10.21
+  - 同步主题：修复 busuanzi 脚本 URL；整理 visitor 小部件注释
 - 2026.10.15（续）
   - 补充 `extras/secure-zip-search.js`：配合 zip-search 时加密文只进标题，避免 `search.flv` 泄漏正文
   - 再次同步主题文件；示例配置保持占位符，不含个人隐私
